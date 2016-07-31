@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+{% load static %}
+{% load staticfiles %}
+{% block main_body %}
+<div class="container" id="ride-details">
+{{ profile.host_id }}
+	<div class="row">
+		<div class="col-md-8" id="left">
+			<div class="col-md-12">
+				<h4>{{ ride.origin|title }}→{{ ride.destination|title }}</h4>				
+			</div>
+			<div class="col-md-12 boxes" id="journey-box">
+				<h4>Journey Details</h4>
+				<div class="row">
+					<div class="col-md-12">	
+						<h5><span class="glyphicon glyphicon-map-marker origin-marker"></span>{{ ride.origin|title }}→{% for x in waypoints %}{{ x.point|title }}→{% endfor %}<span class="glyphicon glyphicon-map-marker destination-marker"></span>{{ ride.destination|title }}</h5>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						Description:
+					</div>
+					{% if ride.detour %}
+					<div class="col-md-3">
+						<p>{{ ride.detour }}Mins Detour</p>
+					</div>
+					{% endif %}
+					{% if ride.luggage %}
+					<div class="col-md-3">
+						{% if ride.luggage == 'M' %}
+							<h5>Medium Luggage</h5>
+						{% endif %}
+						{% if ride.luggage == 'S' %}
+							<h5>Small Luggage</h5>
+						{% endif %}
+						{% if ride.luggage == 'L' %}
+							<h5>Large Luggage</h5>
+						{% endif %}
+					</div>
+					{% endif %}
+				</div>
+				<div class="row">			
+					<div class="col-md-2">
+						<h5>Date| Time :</h5>
+					</div>
+			
+					<div class="col-md-4">
+					<h5>{{ ride.datetime }}</h5>					
+					</div>
+					<div class="col-md-3">
+						<h5>Date Published </h5>
+					</div>
+					<div class="col-md-3">
+					<h5>{{ ride.date_published }}</h5>					
+					</div>
+				</div>
+				<div class="row">
+					<h5 class="col-md-6 col-md-offset-6">					
+						<i>&quot{{ ride.description }}&quot</i>
+					</h5>
+				
+				</div>
+			</div>
+			{% if car %}
+			<div class="col-md-12 boxes" id="car-detail-box">
+				<h4>Car Details</h4>
+				<div class="row">
+					{% if car.image %}
+					<div class="col-md-4">
+						<img class="car-img" alt=""src="{{ MEDIA_URL }}{{ car.image }}">
+					</div>
+					{% endif %}
+					<div class="col-md-6"> 
+						<div class="row">
+							<h5>
+								{{ car.make|title }} 
+								{{ car.car|title }}
+							</h5>
+						</div>
+						{% if car.color %}
+						<div class="row">
+							<h5>
+								Colour: {{ car.color }}
+							</h5>
+						</div>
+						{% endif %}
+						<div class="row">
+							<span>Comfort:</span>						
+							<span class="glyphicon glyphicon-star golden"></span>
+							<span class="glyphicon glyphicon-star golden"></span>
+							<span class="glyphicon glyphicon-star golden"></span>
+						</div>
+					</div>
+				</div>			
+			</div>
+			{% endif %}
+			<div class="col-md-12 boxes" id="additional-detail-box">
+				<h4>Additional Details</h4>
+				<div class="row">
+				
+					<div class="col-md-4">
+						
+						{{ ride.date_published }}
+						{{ ride.seen }}
+					</div>
+				
+					<div class="col-md-6"> 
+						<div class="row">
+							<h5>
+								{{ car.make|title }} 
+								{{ car.car|title }}
+							</h5>
+						</div>
+					</div>
+				</div>			
+			</div>
+
+
+		</div>
+		
+		<div class="col-md-4" id="right">
+		<div class="row">
+			<div class="col-md-12">
+				<h4>Owner Details</h4>
+			</div>
+			<div class="col-md-12" id = "contact-owner-box">
+				<center><img src="{{ MEDIA_URL }}{{ profile.thumbnail_image_url }}" id="details-profile-image"></center>
+				<center><h4>{{ owner.first_name }} {{ owner.last_name }}</h4></center>
+				{% if profile.bio %}
+					<h5 align="center">About the Owner:<i> {{ profile.bio }}</i></h5>
+				{% endif %}
+			</div>
+			
+		</div>
+			<div class="row">
+				<div class="col-md-12" id="contact-owner-box">
+					<!-- <h4>Contact The Car Owner</h4> -->
+					<div class="row">
+						<div class="col-md-12 col-xs-12 col-md-12">
+							<div class="row">
+								<div class="col-md-6 col-xs-6 col-md-6">
+									<h1 class="text-center text-success">{{ rate }}₹</h1>
+									<p class="text-center">Per Co-Traveller</p>
+								</div>
+					
+								<div class="col-md-6 col-xs-6 col-md-6">
+									<h1 class="text-center">4</h1>
+									<p class="text-center">Seats Are Left</p>
+								</div>
+								{% if not user.id = host_user.id %}	
+								<form method="post" action="/usermanagement/mailbox/">
+									{% csrf_token %}
+									<input type="text" id="cus-url" value="{{ ride.cus_url }}" name="cus-url" style="display: none"></input>
+									<div class="col-md-12 col-xs-12 col-md-12">
+										<textarea class=" col-md-12 col-xs-12 col-sm-12 col-lg-12 form-control" name = "message" id="message" placeholder="Tell Him Why You Want Travel With Him(Fairly Long Description May Help People To Understand Each Other)"></textarea>
+									</div>
+									<div class="col-md-12 col-xs-12 col-md-12">
+										<button class="btn col-md-12 btn-success" type = "submit" id="message-owner">Message the owner</button>
+									</div>
+								</form>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

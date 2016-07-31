@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+{% load staticfiles %}
+{% block main_body %}
+
+	<section id="head">
+		<div class="container">
+
+			<div>
+				<h1 align="center" id="tagline-home"><i>&quot Pool Your Travel Expense with car owners & co-travellers.&quot </i></h1>
+			</div>
+			<div class="row" id="main-search">
+				<form id="ride" method="get" action="/ridesharing/ridesearch/">
+					<fieldset class="col-md-3 col-md-offset-2 col-xs-12 col-sm-3 col-sm-offset-2">
+						<input type="text" class="form-control" name = "origin" id="origin"placeholder="Your Starting Point"></input>
+					</fieldset>
+					<fieldset class="col-md-3 col-xs-12 col-sm-3">
+
+						<input type="text" class="form-control" name="destination" id="destination" placeholder="Your Destination"></input>
+					</fieldset>
+
+					<fieldset class="col-md-3 col-xs-12 col-sm-3">
+						<button type="submit" class="btn btn-success col-xs-12 col-md-8">Search For a Drive</button>
+					</fieldset>
+
+				</form>				
+			</div>	
+		</div>	
+	</section>
+
+				
+{% endblock %}
+<div class="form-group has-feedback-left">
+    <label class="control-label">Username</label>
+    <input type="text" class="form-control" placeholder="Username" />
+    <i class="glyphicon glyphicon-user form-control-feedback"></i>
+</div>

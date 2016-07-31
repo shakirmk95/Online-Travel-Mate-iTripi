@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block main_body %}
+<!-- <center>
+<div class="sk-wave">
+	<div class="sk-rect sk-rect1"></div>
+	<div class="sk-rect sk-rect2"></div>
+	<div class="sk-rect sk-rect3"></div>
+	<div class="sk-rect sk-rect4"></div>
+	<div class="sk-rect sk-rect5"></div>
+</div>
+</center> -->
+
+	<section id="head">
+		<div class="container">
+			<div >
+			{% if not user.is_authenticated %}
+				<div class="row">			
+					<div class="col-md-6 login col-md-offset-3" id="login-page">
+
+						<form method="post"> 
+							<div class="col-md-12">
+								<label class="image-replace cd-email col-md-3" for="signin-email" name ="username">E-mail</label>
+								<input class="full-width has-padding has-border form-control" id="signin-email" type="email" placeholder="E-mail"  name ="username">
+							</div>
+							<div class="col-md-12">
+								<label class="image-replace cd-password col-md-3" for="signin-password">Password</label>
+								<input class="full-width has-padding has-border form-control" id="signin-password password" type="password" name="password" placeholder="Password">
+							</div>
+							<div class="col-md-12">
+								<div class="col-md-6">
+									<button type="submit" class="btn btn-success col-md-12">Login</button>
+								</div>
+								<div class="col-md-6">
+									<button type="submit" class="btn btn-primary col-md-12">Login With Facebook</button>
+								</div>
+							</div>
+
+						</form>	
+					</div>
+				</div>
+			</div>
+					<!-- <div class="col-md-6">
+						
+						<form method="post">
+							<div class="col-md-12">
+								<label class="image-replace cd-email col-md-3" for="signin-email" name ="username">E-mail</label>
+								<input class="full-width has-padding has-border form-control" id="signin-email" type="email" placeholder="E-mail"  name ="username">
+							</div>
+							<div class="col-md-12">
+								<label class="image-replace cd-password col-md-3" for="signin-password">Password</label>
+								<input class="full-width has-padding has-border form-control" id="signin-password password" type="password" name="password" placeholder="Password">
+							</div>
+							<div class="col-md-12">
+								<label class="image-replace cd-password col-md-3" for="signin-password">Password</label>
+								<input class="full-width has-padding has-border form-control" id="signin-password password" type="password" name="password" placeholder="Password">
+							</div>
+							<div class="col-md-6 col-md-offset-6">
+									<button type="submit" class="btn btn-success col-md-12">Login</button>
+								</div>
+						</form>	
+					
+					</div>
+				</div> -->
+			{% else %}
+
+			<div class="jumbotron">
+				<h1>Itripi.com</h1>      
+				<p>You Are Not Authorised To View This Content</p>
+			</div>
+			{% endif %}
+
+
+			</div>
+		</div>
+	</section>
+
+{% endblock %}
+
+<p class="fieldset">
+				<label class="image-replace cd-email" for="signin-email" name ="username">E-mail</label>
+				<input class="full-width has-padding has-border" id="signin-email" type="email" placeholder="E-mail"  name ="username">
+				<span class="error-message">Error message here!</span>
+			</p>
+
+			<p class="fieldset">
+				<label class="image-replace cd-password" for="signin-password">Password</label>
+				<input class="full-width has-padding has-border" id="signin-password password" type="password" name="password" placeholder="Password">
+				<a href="#" class="hide-password">Show</a>
+				<span class="error-message">Error message here!</span>
+			</p>

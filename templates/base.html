@@ -1,0 +1,366 @@
+{% load static %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>
+		{% if origin %}
+			{{ origin|title }}
+		{% else %}
+			Online Travel Mate | iTripi
+		{% endif %}
+		Itripi {{ origin|title }}
+		{% if destination %} 
+		to
+		{{ destination|title }}
+		{% endif %}
+		{% if page_title %}
+		- {{ page_title }}
+		{% endif %}
+	</title>
+	<meta charset="UTF-8">
+	<meta name="description" content="Itrip Offers A Platfom To Share Your Vehicles While Travelling">
+	<meta name="keywords" content="itripi,car,carpooling,bla,blabla,blablacar,travel,ride,enjoy,journey">
+	<meta name="author" content="Asnim P Ansari">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+	<!-- <link rel="shortcut icon" href="{% static 'images/itripi.png' %}"> -->
+
+	<link rel="shortcut icon" href="{% static 'images/icon_png.ico' %}" />
+<!-- 	<script>
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+			ga('create', 'UA-75724682-1', 'auto');
+			ga('send', 'pageview');
+	</script> -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="background: red;">
+	<div id="landingpage">
+		<nav class="navbar navbar-default transparent">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="/" id="logo"></a>
+
+				</div>
+				<div class="collapse navbar-collapse">
+					<ul class="nav navbar-nav navbar-right">
+						<li class="mainMenuItemOfferRide"><a class="white" href="/ridesharing/offer/">Offer Your Ride</a></li>
+						{% if user.is_authenticated %}
+						<li class="mainMenuItem"><a class="white" href="/usermanagement/mailbox/"><span class="glyphicon glyphicon-envelope"></span><span class="hidden-lg">Messages<span></a></li>
+						{% if user.first_name %}
+						<li class="mainMenuItem"><a class="white" href="/usermanagement/profile/"><span class="glyphicon glyphicon-user"></span>{{ user.first_name }} {{ user.last_name }}</a></li>
+						<li class="mainMenuItem"><a class="white" href="/usermanagement/logout/"><span class="glyphicon glyphicon-user"></span>Logout</a></li>
+						{% else %}
+						
+						<li class="mainMenuItem"><a class="white" href="/usermanagement/profile/"><span class="glyphicon glyphicon-user"></span>{{ user.username }}</a></li>
+						<li class="mainMenuItem"><a class="white" href="/usermanagement/logout/"><span class="glyphicon glyphicon-user"></span>Logout</a></li>
+						{% endif %}					
+						{% else %}
+						<!-- <li class="mainMenuItem"><a>Login|Sign Up:</a> </li> -->
+						<li class="mainMenuItemFacebook"><a class="white" href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">Facebook</a></li>
+						<li class="mainMenuItemGooglePlus"><a class="white" href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">Google</a>
+						</li>
+						<li class="mainMenuItemTwitter"><a class="white" href="{% url 'social:begin' 'twitter' %}?next={{ request.path }}">Twitter</a>
+						</li>
+						{% endif %}
+						
+					</ul>
+				</div><!--/.nav-collapse -->
+			</div>
+		</nav>
+		{% block main_body %}
+		{% endblock %}
+	</div>
+	
+	<div id="prefooter" style="margin-top: 0px;">
+		<div class="container">
+			<div class="highights">
+				<h3 align="center">Why iTripi ?</h3>
+				<div class="row">
+					<div class="col-md-3" align="center">
+						<!-- <center><img src="{% static "images/ecoservice.png" %}" style="width:100px;"></center> -->
+						<div id="ecoservice"></div>
+
+						<h6 align="center">GO GREEN</h6>
+						<p align="center">In this World of incresing traffic &amp iTripi provides you a platform to pool your car.</p>
+					</div>
+					<div class="col-md-3" align="center">
+						<div id="fuel"></div>
+
+						<!-- <center><img src="{% static "images/fuel.png" %}" style="width:100px;"></center> -->
+						<h6 align="center">SAVE FUEL</h6>
+
+						
+					</div>
+					<div class="col-md-3" align="center">
+						<div id="earn"></div>
+						<!-- <center><img src="{% static "images/earn.png" %}" style="width:100px;"></center> -->
+
+						<h6 align="center">EARN EXTRA</h6>
+						<p align="center">Increasing fuel prices..Hmm iTripi allows you to pool your car for an additiional income.</p>
+					</div>
+					<div class="col-md-3" align="center">
+						<!-- <center><img src="{% static "images/save.png" %}" style="width:100px;"></center> -->
+						<div id="spend"></div>
+
+						<h6 align="center">SPEND LESS</h6>
+						<p align="center">Tired of travelling in Bumpy Buses after paying for all your tickets.
+						Pay simlar rate and enjoy comfortable rides with iTripi rides.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<footer class="footer" id= "footer">
+	<hr/>
+		<div class="container">
+			<div class="row">
+				<!-- <center><img src="{% static "images/white.png" %}" class="logo-navbar"></center> -->
+				<div class="col-md-4" align="center">				
+					<h4>CONTACT US</h4>
+					<span>iTripi</span><br>
+					<span>Innovation & Enterpreneurship Development Cell</span><br>
+					<span>TKM College Of Engineering</span><br>
+					<span>Karicode P.O</span><br>
+					<span>Kollam</span>	
+				</div>
+				<div class="col-md-4" align="center">
+				
+					<h4>BUISNESS HOURS</h4>
+					<span>9.00 AM to 9.00 PM</span>
+				</div>
+				<div class="col-md-4" align="center">
+					<div class="col-md-12"><h4>SITE NAVIGATION</h4></div>				
+					<div class="col-md-12"><a href="/ridesharing/offer/">OFFER YOUR RIDE</a></div>
+					<div class="col-md-12"><a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">SIGN IN|UP</a></div>
+					<!-- <div class="col-md-12"><a href="/ridesharing/newride/">OFFER YOUR RIDE</a></div> -->
+					
+					<!-- <a href="/home/">SIGNIN|SIGNUP</a> -->
+				</div>
+			</div>
+		</div>
+		<hr/>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6">
+					<h4>FOLLOW US ON:</h4>
+					<div class="row">
+						<div class="container">
+						<a href="https://facebook.com/itripi"><img  class = "social-icons" src="{% static "images/facebook.png" %}"></a>
+						<a href="https://"><img  class = "social-icons" src="{% static "images/google.png" %}"></a>
+						<a href=""><img  class = "social-icons" src="{% static "images/instagram.png" %}"></a>
+						<a href=""><img  class = "social-icons" src="{% static "images/twitter.png" %}"></a>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<h4>GET INTO OUR MAILING LIST:</h4>
+					<form class="row form-horizontal" method="POST" action="">
+						{% csrf_token %}
+						<div class="form-group">
+							<label class="control-label col-sm-2 col-md-2" for="first_name">Email</label>
+							<div class="col-md-10">
+								<input type="email" class="form-control" id="email" name="email" placeholder="Drop Your Email to know our new features.">
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<center>Powered By Code-Company</center>
+				</div>
+			</div>
+		</div>		
+	</footer>
+</body>
+	<style type="text/css">
+
+
+
+	@font-face {
+		    font-family: "Roboto Light";
+		    src: url('{% static "fonts/roboto.light.ttf" %}');
+		}
+		@font-face {
+		    font-family: "Roboto ThinItalic";
+		    src: url('{% static "fonts/roboto.thin-italic.ttf" %}');
+		}@font-face {
+		    font-family: "Roboto BlackItalic";
+		    src: url('{% static "fonts/Roboto-BlackItalic.ttf" %}');
+		}@font-face {
+		    font-family: "Roboto BoldItalic";
+		    src: url('{% static "fonts/Roboto-BoldItalic.ttf" %}');
+		}@font-face {
+		    font-family: "Roboto CondensedBold";
+		    src: url('{% static "fonts/RobotoCondensed-Bold.ttf" %}');
+		}@font-face {
+		    font-family: "Roboto CondensedBoldItalic";
+		    src: url('{% static "fonts/RobotoCondensed-BoldItalic.ttf" %}');
+		}@font-face {
+		    font-family: "Roboto CondensedItalic";
+		    src: url('{% static "fonts/RobotoCondensed-Italic.ttf" %}');
+		}@font-face {
+		    font-family: "Roboto CondensedLight";
+		    src: url('{% static "fonts/RobotoCondensed-Light.ttf.ttf" %}');
+		}@font-face {
+		    font-family: "Roboto CondensedLightItalic";
+		    src: url('{% static "fonts/RobotoCondensed-LightItalic.ttf" %}');
+		}@font-face {
+		    font-family: "Roboto CondensedRegular";
+		    src: url('{% static "fonts/RobotoCondensed-Regular.ttf" %}');
+		}
+		@font-face {
+		    font-family: "Roboto Italic";
+		    src: url('{% static "fonts/Roboto-Italic.ttf" %}');
+		}
+		@font-face {
+		    font-family: "Roboto LightItalic";
+		    src: url('{% static "fonts/Roboto-LightItalic.ttf" %}');
+		}
+		@font-face {
+		    font-family: "Roboto Medium";
+		    src: url('{% static "fonts/Roboto-Medium.ttf" %}');
+		}
+		@font-face {
+		    font-family: "Roboto MediumItalic";
+		    src: url('{% static "fonts/Roboto-MediumItalic.ttf" %}');
+		}
+		@font-face {
+		    font-family: "Roboto Regular";
+		    src: url('{% static "fonts/Roboto-Regular.ttf" %}');
+		}
+
+		body{
+			background:#ffffff;
+			background-position: center top;
+			background-size: cover;
+			height: 100vh;
+			background-repeat: no-repeat;
+			font-family: Roboto Light;
+
+		}
+		li{
+			color: white;
+		}
+		.navbar-default .navbar-nav > li > a{
+			color: white;
+		}
+		.navbar-default .navbar-nav > li > a:hover{
+			color: white;
+		}
+
+		#ecoservice{
+			width: 105px;
+			height: 100px;
+			background: url('{%static "images/prefooter.png" %}') -200px 0;
+		}
+		#earn{
+			width: 97px;
+			height: 100px;
+			background: url('{%static "images/prefooter.png" %}') -303px 0;
+		}
+		#spend{
+			width: 94px;
+			height: 100px;
+			background: url('{%static "images/prefooter.png" %}') 0px 0;
+		}
+		#fuel{
+			width: 105px;
+			height: 100px;
+			background: url('{%static "images/prefooter.png" %}') -96px 0;
+		}
+		
+		#logo{
+			width: 105px;
+			height: 50px;
+			background: url('{%static "images/logo.png" %}');
+		}
+	</style>
+	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+    <script type="text/javascript">
+        google.maps.event.addDomListener(window, 'load', function () {
+            var places = new google.maps.places.Autocomplete(document.getElementById('origin'));
+            var places2 = new google.maps.places.Autocomplete(document.getElementById('destination'));
+            var places3 = new google.maps.places.Autocomplete(document.getElementById('det-waypoints'));
+            var places = new google.maps.places.Autocomplete(document.getElementById('det-origin'));
+            var places2 = new google.maps.places.Autocomplete(document.getElementById('det-destination'));
+            google.maps.event.addListener(places, 'place_changed', function () {
+                var place = places.getPlace();
+                var place = places.get
+                var address = place.formatted_address;
+                var latitude = place.geometry.location.lat();
+                var longitude = place.geometry.location.lng();
+                // var mesg = "Address: " + address;
+                // mesg += "\nLatitude: " + latitude;
+                // mesg += "\nLongitude: " + longitude;
+                // alert(mesg);
+            });
+        });
+    </script>
+    <script type="text/javascript" src="{% static "js/jquery.js" %}"></script>
+	<script type="text/javascript" src="{% static "js/bootstrap.js" %}"></script>
+	<script type="text/javascript" src="{% static "js/custom.js" %}"></script>
+	<script type="text/javascript" src="{% static "js/jscriptDesign.js" %}"></script>
+	<script type="text/javascript" src="{% static "js/popover.js" %}"></script>
+	<script type="text/javascript" src="{% static "js/jquery-ui.js" %}"></script>
+	<script type="text/javascript">
+		$(function() {
+			$( "#slider-range1" ).slider({
+			range: true,
+			min: 0,
+			max: 500,
+			values: [ 75, 300 ],
+			slide: function( event, ui ) {
+			$( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+			}
+			});
+			$( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
+			" - $" + $( "#slider-range" ).slider( "values", 1 ) );
+		});
+
+		$(function() {
+			$( "#slider-range2" ).slider({
+			range: true,
+			min: 0,
+			max: 500,
+			values: [ 75, 300 ],
+			slide: function( event, ui ) {
+			$( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+			}
+			});
+			$( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
+			" - $" + $( "#slider-range" ).slider( "values", 1 ) );
+		});
+
+		$(function() {
+			$( "#slider-range3" ).slider({
+			range: true,
+			min: 0,
+			max: 500,
+			values: [ 75, 300 ],
+			slide: function( event, ui ) {
+			$( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+			}
+			});
+			$( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
+			" - $" + $( "#slider-range" ).slider( "values", 1 ) );
+		});
+	</script>
+
+    {% block scripts %}
+	{% endblock %}
+</html>
+

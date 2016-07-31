@@ -1,0 +1,262 @@
+{% extends "base.html" %}
+{% load static %}
+{% block meta_details %}
+{% endblock %}
+{% block main_body %}
+<div class="container">
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Kollam To Kochin Journey</h4>
+        </div>
+        <div class="modal-body">
+        	<div class="row">
+        		<div class="col-md-4 col-xs-4">Starting <span class="hidden-xs">Point</span></div>
+        		<div class="col-md-8 col-xs-8">Kollam, Kerala</div>
+        	</div>
+        	<div class="row">
+        		<div class="col-md-4 col-xs-4">Destination <span class="hidden-xs">Point</span></div>
+        		<div class="col-md-8 col-xs-8">Trivandrum, Kerla</div>
+        	</div>
+        	<hr/>
+        	<div class="row" id ="summary">
+        		<div class="col-md-4 col-xs-12">Summary</div>
+        		<div id="summary-details">
+	        	</div>   		
+        	</div>  	
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" id="confirm-journey" data-dismiss="modal">Confirm Your Journey</button>
+        </div>
+      </div>      
+    </div>
+  </div>
+</div>
+<section id="head">	
+	<div class="container">
+		<div class="col-md-12" id="offer-head">
+			<div class="row">
+					<center><h3 id="main-heading" class="col-md-4 col-md-offset-4">OFFER YOUR SEATS</h3></center>
+			</div>
+			<form id="ride-offer-details" role="form" method="POST" action="/ridesharing/offer/">
+				{% csrf_token %}
+				<div class="row">
+					<div class="col-md-6">
+						<fieldset class="form-group col-md-12 col-xs-12">
+							<label for="det-origin" class="side-notes">Choose Your Starting Point</label>
+							<span class="glyphicon glyphicon-info-sign" id="glyph-origin" data-toggle="popover" data-content="Always try To give the exact location"></span>
+				    		<input type="text" class="form-control fields places" id="det-origin" name="det-origin" placeholder="Choose Starting Point">
+				    		<span class="glyphicons"></span>			   
+						</fieldset>
+						<div class="form-group col-md-12 col-xs-12" id="waypoint-div" style="display:none ">
+							<label for="det-waypoints" class="side-notes">Add WayPoints</label>									
+						</div>
+						<fieldset class="form-group col-md-6 col-md-offset-3 col-xs-12">
+				    		<button type="button" class="form-control" id="add-waypoint">Add Stop Over</button>	   
+						</fieldset>
+						<fieldset class="form-group col-md-12 col-xs-12">
+							<label for="det-destination" class="side-notes">Choose Your Destination</label>
+							<span class="glyphicon glyphicon-info-sign" id="glyph-destination" data-toggle="popover" data-content="Always try To give the exact location"></span>
+				    		<input type="text" class="form-control fields places" id="det-destination" name="det-destination" placeholder="Choose Destination">
+						</fieldset>
+						
+						<div id="dtBox"></div>
+						<div id="ride-rate-distance" class="col-md-12">
+						</div>			
+						<fieldset class="form-group col-md-12 col-xs-12">
+							<label for="datetime" class="side-notes">Date & Time</label>
+							<span class="glyphicon glyphicon-info-sign" id="glyph-date" data-toggle="popover" data-content="Usually Rides are offered atleast 2 days before the time of journey"></span>
+							<!-- <span class="text-danger">Enter Upcomming Dates</span>	 -->
+				    		<input type="text" class="form-control fields" id="datetime" name="datetime" placeholder="Date | Time" data-field="datetime" readonly>		   
+						</fieldset>
+						
+						<fieldset class="form-group col-md-6 col-xs-6 ride-description">
+							<label for="seats" class="side-notes">Seats</label>
+							<select class="form-control fields" id="seats" name="seatSelector">
+								<option value="1">4 Seats</option>
+								<option value="2">3 Seats</option>
+								<option value="3">2 Seats</option>
+								<option value="4">1 Seat</option>					
+							</select> 	   
+						</fieldset>
+						<fieldset class="form-group col-md-6 col-xs-6">
+						{% if transport %}
+							<label for="car" class="side-notes">Car</label>
+
+							<select class="form-control fields" id="car" name="car">
+
+									{% for i in transport %}
+										<option value="{{ i.id }}">{{ i.make }} {{ i.car }}</option>
+									{% endfor %}
+								</select>
+						{% endif %}
+						</fieldset>
+						<fieldset class="form-group col-md-12 col-xs-12 col-sm-12 ride-description">
+							<label for="description" class="side-notes">Tell Us Why You Are Going?</label>
+				    		<!-- <input type="text" class="form-control fields" id="description" name="description" placeholder="Brief Descriptions About Your Jounrney(Min 100 Letters)"> -->
+				    		<textarea  class="form-control fields" id="description" name="description" placeholder="Brief Descriptions About Your Jounrney(Min 100 Letters)"></textarea>		   
+						</fieldset>
+						<fieldset class="form-group col-md-6 ride-description">
+							<label for="luggage" class="side-notes">Luggage</label>
+							<select class="form-control fields" id="luggage" name="luggage">
+								<option value="S">Small</option>
+								<option value="M">Medium</option> 
+								<option value="H">HandBag</option>
+								<option value="B">Medium Bag</option>
+							</select> 	   
+						</fieldset>
+						<fieldset class="form-group col-md-6 ride-description">
+							<label for="detour" class="side-notes">Detour</label>
+							<select class="form-control fields" id="detour" name="detour">
+								<option value="0">No</option>
+								<option value="15">15 Mins</option>
+								<option value="30">30 Mins</option>
+								<option value="45">45 Mins</option>
+							</select> 	   
+						</fieldset>
+						<fieldset class="form-group col-md-6 col-md-offset-6">
+				    		<button type="button" class="form-control btn-primary" id="offer-ride" data-toggle="modal" data-target="#myModal" disabled>Offer Your Seats</button>	   
+						</fieldsedet>
+
+					</div>		
+
+					<div class="col-md-6 hidden-xs">
+						<center>Route Map</center>
+						<div class="col-md-12 hidden-xs ride-details" id="map">
+					</div>			
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</section>
+
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript" src="{% static "js/DateTimePicker.js" %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static "css/DateTimePicker.css" %}">
+<script type="text/javascript">		
+			$(document).ready(function()
+			{
+				$("#dtBox").DateTimePicker();
+			});
+		
+		</script>	
+<script>
+initMap();
+    
+var dist = [];
+var route;
+function place_name_simplifier(detailed_place){
+	
+	var place ="";
+	var i =0;
+	while(detailed_place[i] != ','){
+		place+= detailed_place[i];
+		i++;
+	}
+	return place;
+}
+
+function initMap() {
+	dist = [];
+
+	var directionsService = new google.maps.DirectionsService;
+	var directionsDisplay = new google.maps.DirectionsRenderer;
+	var map = new google.maps.Map(document.getElementById('map'),{
+		zoom: 4,
+		center: {lat: 28.6472799, lng: 76.8130653}
+	});
+	directionsDisplay.setMap(map);
+
+	calculateAndDisplayRoute(directionsService,directionsDisplay);
+	document.getElementById('det-origin').addEventListener('blur',function(){
+		calculateAndDisplayRoute(directionsService,directionsDisplay);
+	});
+	document.getElementById('det-origin').addEventListener('keypress',function(e){
+		if(e.keyCode == 13){calculateAndDisplayRoute(directionsService,directionsDisplay);}
+	});
+	document.getElementById('det-destination').addEventListener('blur',function(){
+		calculateAndDisplayRoute(directionsService,directionsDisplay);
+	});
+	document.getElementById('det-destination').addEventListener('keypress',function(e){
+		if(e.keyCode == 13){calculateAndDisplayRoute(directionsService,directionsDisplay);}
+	});
+	document.getElementsByClassName('places').addEventListener('keypress',function(e){
+		alert("BLa Bal");
+		if(e.keyCode == 13){calculateAndDisplayRoute(directionsService,directionsDisplay);}
+	});
+	document.getElementsByName('waypoints').addEventListener('blur',function(){
+		alert("Blure");
+		calculateAndDisplayRoute(directionsService,directionsDisplay);
+	});
+}
+function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+	var waypts = [];
+	dist = [];
+	var x = document.getElementsByName('det-waypoints'); 
+  	for(var i=0;i<x.length;i++){
+  		if(!(x[i].value === '')){
+	  		waypts.push({
+	  			location:x[i].value,
+	  			stopover: true
+	  		});
+	  	}	 
+  	}
+	directionsService.route({
+		origin: document.getElementById('det-origin').value,
+		destination: document.getElementById('det-destination').value,
+		waypoints: waypts,
+		optimizeWaypoints: true,
+		travelMode: google.maps.TravelMode.DRIVING,
+		
+
+	},
+	function(response, status){
+	    if (status === google.maps.DirectionsStatus.OK) {
+			directionsDisplay.setDirections(response);
+			window.route = response.routes[0];
+			// For each route, display summary information.
+			var ride_details_html = document.getElementById('ride-rate-distance');
+			var summaryPanel = document.getElementById('ride-rate-distance');
+			var total_distance = 0;
+			summaryPanel.innerHTML = '';
+			if(route.legs.length){summaryPanel.innerHTML+='<table class="table"><thead><tr><th>From</th><th>To</th><th>Distance</th><th>Fare</th></tr></thead><tbody id="table"></tbody></table>';	}
+			summaryTable = document.getElementById('table');
+			for(var i = 0;i<route.legs.length;i++){
+				// summaryTable.innerHTML += '<tr><td>'+place_name_simplifier(route.legs[i].start_address)+'</td><td>'+place_name_simplifier(route.legs[i].end_address+'</td><td>'+route.legs[i].distance.text+'</td></tr>';
+
+			}
+			
+			for (var i = 0; i < route.legs.length; i++) {			
+				if (route.legs[i].distance.value/1000<10){
+					dist.push(route.legs[i].distance.value/1000*0.86);
+				}
+				else if(route.legs[i].distance.value/1000<300){
+					dist.push(route.legs[i].distance.value/1000*1.03);
+
+				}
+				else if(route.legs[i].distance.value/1000<600){
+					dist.push(route.legs[i].distance.value/1000*1.55);
+				}
+				else if(route.legs[i].distance.value/1000<1000){
+					dist.push(route.legs[i].distance.value/1000*1.55);
+				}	
+			summaryTable.innerHTML+='<tr><td>'+place_name_simplifier(route.legs[i].start_address)+'→</td><td>'+place_name_simplifier(route.legs[i].end_address)+'</td><td>'+route.legs[i].distance.text+'</td><td class = "fare"><input type="number" class="form-control variableprice" name="price" value="'+Math.ceil(dist[i])+'"/></td></tr>';
+			}
+
+			
+
+			// summaryPanel.innerHTML += '<div class="col-md-12 route-seg-detail"><div class="col-md-3">'+place_name_simplifier(route.legs[0].start_address)+ '</div><div class="col-md-3">'+place_name_simplifier(route.legs[(route.legs.length-1)].end_address) ;
+		
+
+	    }
+	   
+  	});
+}
+    </script>
+
+{% endblock %}

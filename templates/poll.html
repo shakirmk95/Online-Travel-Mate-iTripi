@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Football Team Poll</title>
+</head>
+<body align="center">
+	<b>Vote for Football Team with most lovers</b></br>
+
+	<input type="checkbox" name="" />Germany</br>
+	<input type="checkbox" name="" />Portugal</br>
+	<input type="checkbox" name="" />Brazil</br>
+	<input type="checkbox" name="" />Italy</br>
+	<input type="checkbox" name="" />Spain</br>
+	<input type="checkbox" name="" />Argetina</br>
+	<input type="checkbox" name="" />England</br>
+	<input type="checkbox" name="" />France</br>
+	<input type="checkbox" name="" />Chili</br>
+	<p>Add Another Team</p><input type="text" name="New Team">
+	<a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}"><button>Vote</button></a>
+
+
+
+</body>
+</html>

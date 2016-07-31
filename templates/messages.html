@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load static %}
+{% load staticfiles %}
+
+{% block main_body %}
+<div class="container" id="profile-page">
+	 <div class="row">
+		<div class="container col-md-12">
+			<h4>
+			{{ ride_profile.origin|title }} → {{ ride_profile.destination|title }} on {{ ride_profile.datetime.date }}
+			</h4>
+		</div>
+	</div>	
+	<div class="row">
+		<div class="col-md-10">
+		{% for i in messages %}
+			<div class="row well well-sm">				
+				<div class="col-md-1">
+					<img src="{{ MEDIA_URL }}{{ i.sender_id.image }}" class="user-chat-image">	
+				</div>
+				<div class="col-md-2">
+					{{ i.sender_id.sender_name }}
+				</div>
+				<div class="col-md-6">
+				<p>
+					{{ i.message }}	
+					</p	>	
+				</div>
+				<div class="col-md-3">
+					<p>{{ i.sent_time.date  }} {{ i.sent_time.time }}</p>
+				</div>				
+			</div>
+		{% endfor %}
+
+			<div class="row">
+				<div class="col-md-2 sender-name">
+					<strong class="">{{ user.first_name }} {{ user.last_name }}:</strong>
+				</div>
+				<div class="col-md-10">
+					<form action="/usermanagement/messages/{{ cus_url }}/" method="POST">
+					{% csrf_token %}
+					<textarea class="form-control" id="message" name="message" placeholder="Send Messages which are usefull for both the parties. Min Length : 50"></textarea>	
+					<button class="btn btn-success col-md-5  accept-send">Send</button>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-2">
+			<center><img  class ="side-pic" src="{{ MEDIA_URL }}/{{ sender_image }}"></center>
+			<h4><center>{{ sender_user.first_name|title }} {{ sender_user.last_name|title }}</center></h4>
+			{% if sender_profile.bio %}
+			<h5><strong>Bio:</strong> {{ sender_profile.bio }}</h5>
+			{% endif %}
+			{% if age %}
+			<h5><strong>Age:</strong>{{ age }}
+			{% endif %}
+			{% if unhide %}
+			{% if Requested_users.status == 'N' %}		
+			<form action ="/usermanagement/rideapproval/{{ cus_url }}/" method="POST">
+			{% csrf_token %}
+
+			<button class="btn btn-warning col-md-12 accept-send">Accept Join Request</button>
+			</form>
+			{% else %}
+			<h5 class="text-success" align="center">This Journey Request Has Been Accepted</h5>
+			{% endif %}
+			{% endif %}
+		</div>		
+	</div>
+</div>
+
+{% endblock %}
